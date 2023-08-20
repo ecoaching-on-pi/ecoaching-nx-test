@@ -1,0 +1,43 @@
+<mat-card class="new-training">
+  <mat-card-header><h1>Workout Time</h1></mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="newTrainingForm">
+      <div class="form-container">
+        <mat-form-field class="formField">
+          <mat-label>Favorite Sport</mat-label>
+          <mat-select formControlName="favoriteSport">
+            <mat-option value="HIIT">
+              High-Intensity Interval Training (HIIT)
+            </mat-option>
+            <mat-option value="Strength Training">
+              Strength Training
+            </mat-option>
+            <mat-option value="Yoga"> Yoga </mat-option>
+            <mat-option value="Running"> Running </mat-option>
+            <mat-option value="Pilates"> Pilates </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="formField">
+          <mat-label>Training Minutes</mat-label>
+          <mat-select formControlName="selectedMinutes">
+            <mat-option value="1"> 1 </mat-option>
+            <mat-option value="5"> 5 </mat-option>
+            <mat-option value="10"> 10 </mat-option>
+            <mat-option value="15"> 15</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button
+        type="submit"
+        mat-raised-button
+        color="accent"
+        (click)="onStartTraining()">
+        Start Training
+      </button>
+    </form>
+  </mat-card-content>
+  <img
+    mat-card-image
+    src="../assets/images/workout.png"
+    alt="Woman showing active workout" />
+</mat-card>

@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+  <section class="menue">
+    <button
+      mat-icon-button
+      aria-label="Menu"
+      id="menu-button"
+      (click)="onSidenavToggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div id="header-title-small">Ecoaching on PI</div>
+  </section>
+  <section class="flex-container">
+    <a class="logo-container" routerLink="/">
+      <img src="../assets/images/logo.svg" alt="Logo" />
+    </a>
+    <div><span class="header-title">Ecoaching on PI</span></div>
+    <a routerLink="/">
+      <mat-icon>home</mat-icon>
+      Home
+    </a>
+    <a routerLink="/fitness/training">
+      <mat-icon>fitness_center</mat-icon>
+      Fitness
+    </a>
+  </section>
+  <section class="flex-spacer"></section>
+  <section class="flex-container">
+    <a routerLink="/fitness/cart">
+      <mat-icon>shopping_cart</mat-icon>
+      Cart
+    </a>
+    <a routerLink="/fitness/signup">
+      <mat-icon>login</mat-icon>
+      SignUp
+    </a>
+    <a>
+      <mat-icon>eject</mat-icon>
+      LogOut
+    </a>
+  </section>
+</mat-toolbar>

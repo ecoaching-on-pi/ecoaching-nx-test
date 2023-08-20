@@ -16,7 +16,10 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/fitness/tsconfig.app.json",
         "assets": ["apps/fitness/src/favicon.ico", "apps/fitness/src/assets"],
-        "styles": ["apps/fitness/src/styles.scss"],
+        "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
+          "apps/fitness/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

@@ -1,0 +1,26 @@
+<mat-tab-group *ngIf="!ongoingTraining">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">flag_circle</mat-icon>
+      New Training
+    </ng-template>
+    <ecoaching-on-pi-new-training
+      (trainingStart)="onTrainingStart()"
+      (selectedMinutesChange)="
+        onSelectedMinutesChange($event)
+      "></ecoaching-on-pi-new-training>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">check_circle_outline</mat-icon>
+      Past Training
+    </ng-template>
+    <ecoaching-on-pi-past-trainings></ecoaching-on-pi-past-trainings>
+  </mat-tab>
+</mat-tab-group>
+
+<ecoaching-on-pi-current-training
+  *ngIf="ongoingTraining"
+  (trainingExit)="ongoingTraining = false"
+  [totalMinutes]="selectedMinutes"></ecoaching-on-pi-current-training>

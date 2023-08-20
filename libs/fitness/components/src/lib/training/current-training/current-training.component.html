@@ -1,0 +1,16 @@
+<section class="current-training">
+  <mat-spinner></mat-spinner>
+  <h1>Training in progress...</h1>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="remainingSeconds"></mat-progress-bar>
+  <p id="currentExercise">Time remaining: {{ minutes }}:{{ seconds }}</p>
+
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="onStopTraining()"
+    class="stop-training">
+    Stop
+  </button>
+</section>

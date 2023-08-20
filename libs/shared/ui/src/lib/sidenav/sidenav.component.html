@@ -1,0 +1,25 @@
+<section class="sidenav-columns-start">
+  <a class="logo-container" routerLink="/" (click)="onSidenavclose()">
+    <img src="../assets/images/logo.svg" alt="Logo" />
+  </a>
+  <a routerLink="/" (click)="onSidenavclose()">
+    <mat-icon>home</mat-icon>
+    <span>Home</span></a
+  >
+  <a routerLink="/fitness/products" (click)="onSidenavclose()">
+    <mat-icon>category</mat-icon> <span>Category</span></a
+  >
+  <a routerLink="/fitness/training" (click)="onSidenavclose()">
+    <mat-icon>fitness_center</mat-icon> <span>Training</span></a
+  >
+</section>
+
+<section class="sidenav-columns-end">
+  <a routerLink="/fitness/cart" (click)="onSidenavclose()">
+    <mat-icon>shopping_cart</mat-icon> <span>Cart</span></a
+  >
+  <a routerLink="/fitness/signup" (click)="onSidenavclose()">
+    <mat-icon>login</mat-icon> <span>SignUp</span></a
+  >
+  <a> <mat-icon>eject</mat-icon> LogOut</a>
+</section>

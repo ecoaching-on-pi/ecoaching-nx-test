@@ -1,2 +1,14 @@
-<ecoaching-on-pi-nx-welcome></ecoaching-on-pi-nx-welcome>
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation">
+    <ecoaching-on-pi-sidenav
+      (closesidenav)="sidenav.close()"></ecoaching-on-pi-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ecoaching-on-pi-header
+      (sidenavToggle)="sidenav.toggle()"></ecoaching-on-pi-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

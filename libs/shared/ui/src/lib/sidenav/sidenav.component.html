@@ -1,25 +1,54 @@
-<section class="sidenav-columns-start">
-  <a class="logo-container" routerLink="/" (click)="onSidenavclose()">
-    <img src="../assets/images/logo.svg" alt="Logo" />
-  </a>
-  <a routerLink="/" (click)="onSidenavclose()">
-    <mat-icon>home</mat-icon>
-    <span>Home</span></a
-  >
-  <a routerLink="/fitness/products" (click)="onSidenavclose()">
-    <mat-icon>category</mat-icon> <span>Category</span></a
-  >
-  <a routerLink="/fitness/training" (click)="onSidenavclose()">
-    <mat-icon>fitness_center</mat-icon> <span>Training</span></a
-  >
-</section>
+<ul>
+  <li>
+    <a class="logo-container" routerLink="/" (click)="onSidenavclose()">
+      <img src="../assets/images/logo.svg" alt="Logo" />
+    </a>
+  </li>
+</ul>
+<div class="sidenav">
+  <section class="top-section">
+    <ul class="list-container">
+      <li>
+        <a routerLink="/" (click)="onSidenavclose()">
+          <mat-icon>home</mat-icon>
+          <span>Home</span></a
+        >
+      </li>
+      <li>
+        <a routerLink="/fitness/products" (click)="onSidenavclose()">
+          <mat-icon>category</mat-icon> <span>Category</span></a
+        >
+      </li>
+      <li *ngIf="isAuth">
+        <a routerLink="/fitness/training" (click)="onSidenavclose()">
+          <mat-icon>fitness_center</mat-icon> <span>Training</span></a
+        >
+      </li>
+    </ul>
+  </section>
+  <section class="flex-spacer"></section>
 
-<section class="sidenav-columns-end">
-  <a routerLink="/fitness/cart" (click)="onSidenavclose()">
-    <mat-icon>shopping_cart</mat-icon> <span>Cart</span></a
-  >
-  <a routerLink="/fitness/signup" (click)="onSidenavclose()">
-    <mat-icon>login</mat-icon> <span>SignUp</span></a
-  >
-  <a> <mat-icon>eject</mat-icon> LogOut</a>
-</section>
+  <section class="bottom-section">
+    <ul class="list-container">
+      <li>
+        <a routerLink="/fitness/cart" (click)="onSidenavclose()">
+          <mat-icon>shopping_cart</mat-icon> <span>Cart</span></a
+        >
+      </li>
+      <li *ngIf="!isAuth">
+        <a routerLink="/fitness/signup" (click)="onSidenavclose()">
+          <mat-icon>login</mat-icon> <span>SignUp</span></a
+        >
+      </li>
+      <li *ngIf="!isAuth">
+        <a routerLink="/fitness/login" (click)="onSidenavclose()">
+          <mat-icon>login</mat-icon>
+          Login
+        </a>
+      </li>
+      <li *ngIf="isAuth" (click)="onLogout()">
+        <a> <mat-icon>eject</mat-icon> LogOut</a>
+      </li>
+    </ul>
+  </section>
+</div>

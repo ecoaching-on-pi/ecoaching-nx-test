@@ -5,7 +5,6 @@
       New Training
     </ng-template>
     <ecoaching-on-pi-new-training
-      (trainingStart)="onTrainingStart()"
       (selectedMinutesChange)="
         onSelectedMinutesChange($event)
       "></ecoaching-on-pi-new-training>
@@ -22,5 +21,4 @@
 
 <ecoaching-on-pi-current-training
   *ngIf="ongoingTraining"
-  (trainingExit)="ongoingTraining = false"
   [totalMinutes]="selectedMinutes"></ecoaching-on-pi-current-training>

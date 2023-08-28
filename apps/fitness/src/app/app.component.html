@@ -6,9 +6,8 @@
   <mat-sidenav-content>
     <ecoaching-on-pi-header
       (sidenavToggle)="sidenav.toggle()"></ecoaching-on-pi-header>
-    <main>
+    <main [@fadeInOut]>
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

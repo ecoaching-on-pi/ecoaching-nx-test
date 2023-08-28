@@ -12,14 +12,21 @@ import { FitnessMaterialModule } from './fitness-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { StopTrainingComponent } from './training/current-training/stop-training.component';
+import { FitnessDataModule } from '@ecoaching-on-pi/fitness/data';
+import { SharedUiModule } from '@ecoaching-on-pi/shared/ui';
+import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedUiModule,
+    SharedUtilityModule,
     FormsModule,
     ReactiveFormsModule,
     FitnessComponentsRoutingModule,
     FitnessMaterialModule,
+    FitnessDataModule,
   ],
   declarations: [
     ProductsComponent,

@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 export class BaseComponent implements OnDestroy {
   isSmallScreen = false;
 
-  private breakpointSubscription: Subscription;
+  breakpointSubscription: Subscription;
 
   constructor(private breakpointsService: BreakpointsService) {
     this.breakpointSubscription =

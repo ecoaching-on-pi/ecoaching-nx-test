@@ -1,1 +1,51 @@
-<p>login works!</p>
+<section>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="form-container">
+      <h1>Login</h1>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          ngModel
+          placeholder="Your Email"
+          name="email"
+          email
+          required
+          #emailinput="ngModel" />
+        <mat-error *ngIf="emailinput.hasError('required')"
+          >Email can not be empty</mat-error
+        >
+        <mat-error *ngIf="!emailinput.hasError('required')"
+          >Email is invalid</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field hintLabel="At least 8 characters">
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          matInput
+          ngModel
+          placeholder="Your Password"
+          name="password"
+          required
+          minlength="8"
+          #pwinput />
+        <mat-hint align="end">{{ pwinput.value.length }}</mat-hint>
+        <mat-error>Must be at least 8 characters</mat-error>
+      </mat-form-field>
+
+      <button
+        [disabled]="f.invalid"
+        type="submit"
+        mat-raised-button
+        color="primary">
+        Login
+      </button>
+
+      <a routerLink="/fitness/signup" mat-button color="accent">
+        Switch to Sign Up
+      </a>
+    </div>
+  </form>
+</section>

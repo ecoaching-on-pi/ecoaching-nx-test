@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StopTrainingComponent } from './stop-training.component';
+import { TrainingService } from '@ecoaching-on-pi/fitness/data';
 
 @Component({
   selector: 'ecoaching-on-pi-current-training',
@@ -8,23 +9,28 @@ import { StopTrainingComponent } from './stop-training.component';
   styleUrls: ['./current-training.component.scss'],
 })
 export class CurrentTrainingComponent implements OnInit {
-  @Output() trainingExit = new EventEmitter<void>();
-
   @Input() totalMinutes = 1;
 
   minutes = 0;
   seconds = 0;
+  secondsDone = 0;
   remainingSeconds = 0;
-  remainingTime = 0;
-  constructor(private matDialog: MatDialog) {}
-
-  ngOnInit(): void {
-    console.log('totalMinutes', this.totalMinutes);
-    this.startTimer();
+  trainingName = '';
+  constructor(
+    private matDialog: MatDialog,
+    private trainingService: TrainingService
+  ) {
+    this.trainingName = this.trainingService.getRunningExercise()
+      ?.name as string;
   }
 
-  startTimer(): void {
-    this.remainingSeconds = this.totalMinutes * 60;
+  ngOnInit(): void {
+    this.startTimer(this.totalMinutes, this.secondsDone);
+  }
+
+  startTimer(minutesToDo: number, secondsDone: number): void {
+    this.remainingSeconds = minutesToDo * 60;
+    this.secondsDone = secondsDone;
 
     const timerInterval = setInterval(() => {
       this.minutes = Math.floor(this.remainingSeconds / 60);
@@ -33,22 +39,32 @@ export class CurrentTrainingComponent implements OnInit {
       if (this.remainingSeconds <= 0) {
         clearInterval(timerInterval);
         console.log('Timer completed!');
-        this.trainingExit.emit();
+        this.trainingService.completeExercise(this.secondsDone);
       }
-
+      this.secondsDone++;
       this.remainingSeconds--;
     }, 1000);
   }
 
-  resumeTraining(): void {
-    this.startTimer();
+  resumeTraining(minutesToDo: number, secondsDone: number): void {
+    this.startTimer(minutesToDo, secondsDone);
   }
 
-  onStopTraining(): void {
-    this.totalMinutes = this.minutes + this.seconds / 60;
-    console.log('onStopTraining', this.totalMinutes);
-    const dialogRef = this.matDialog.open(StopTrainingComponent,{data:{ minutes: this.minutes, seconds: this.seconds }});
-    dialogRef.afterClosed().subscribe((result) => result ? this.trainingExit.emit() : this.resumeTraining());
+  onStopTraining(minutesToDo: number, secondsDone: number): void {
+    const remainingMinutes = minutesToDo / 60;
 
+    const progress = secondsDone;
+
+    console.log('onStopTraining', this.totalMinutes);
+    const dialogRef = this.matDialog.open(StopTrainingComponent, {
+      data: { minutes: this.minutes, seconds: this.seconds },
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe(result =>
+        result
+          ? this.trainingService.cancelExercise(progress)
+          : this.resumeTraining(remainingMinutes, progress)
+      );
   }
 }

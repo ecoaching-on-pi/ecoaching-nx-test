@@ -1,20 +1,23 @@
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'ecoaching-on-pi-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })),
+      state('*', style({ opacity: 1 })),
+      transition(':enter', [animate('0.5s ease-in')]),
+      transition(':leave', [animate('0.5s ease-out')]),
+    ]),
+  ],
 })
-export class AppComponent {
-  title = 'fitness';
-  isSmallScreen = false;
-
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.XSmall])
-      .subscribe(result => {
-        this.isSmallScreen = result.matches;
-      });
-  }
-}
+export class AppComponent {}

@@ -59,6 +59,7 @@
           [matDatepicker]="picker"
           placeholder="Your birthdate"
           ngModel
+          name="birthdate"
           required />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
@@ -78,6 +79,9 @@
         color="primary">
         Sign Up
       </button>
+      <a routerLink="/fitness/login" mat-button color="accent">
+        Switch to Login
+      </a>
     </div>
   </form>
 </section>

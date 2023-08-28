@@ -1,5 +1,6 @@
 export * from './lib/fitness-components.module';
 export * from './lib/fitness-components-routing.module';
+export * from './lib/fitness-material.module';
 export * from './lib/lib.routes';
 export * from './lib/products/products.component';
 export * from './lib/auth/signup/signup.component';

@@ -10,32 +10,58 @@
     <div id="header-title-small">Ecoaching on PI</div>
   </section>
   <section class="flex-container">
-    <a class="logo-container" routerLink="/">
-      <img src="../assets/images/logo.svg" alt="Logo" />
-    </a>
+    <ul>
+      <li>
+        <a class="logo-container" routerLink="/">
+          <img src="../assets/images/logo.svg" alt="Logo" />
+        </a>
+      </li>
+    </ul>
+
     <div><span class="header-title">Ecoaching on PI</span></div>
-    <a routerLink="/">
-      <mat-icon>home</mat-icon>
-      Home
-    </a>
-    <a routerLink="/fitness/training">
-      <mat-icon>fitness_center</mat-icon>
-      Fitness
-    </a>
+    <ul class="list-container">
+      <li>
+        <a routerLink="/">
+          <mat-icon>home</mat-icon>
+          Home
+        </a>
+      </li>
+      <!-- <li *ngIf="isAuth"> -->
+      <li>
+        <a routerLink="/fitness/training">
+          <mat-icon>fitness_center</mat-icon>
+          Fitness
+        </a>
+      </li>
+    </ul>
   </section>
   <section class="flex-spacer"></section>
   <section class="flex-container">
-    <a routerLink="/fitness/cart">
-      <mat-icon>shopping_cart</mat-icon>
-      Cart
-    </a>
-    <a routerLink="/fitness/signup">
-      <mat-icon>login</mat-icon>
-      SignUp
-    </a>
-    <a>
-      <mat-icon>eject</mat-icon>
-      LogOut
-    </a>
+    <ul class="list-container">
+      <li>
+        <a routerLink="/fitness/cart">
+          <mat-icon>shopping_cart</mat-icon>
+          Cart
+        </a>
+      </li>
+      <li *ngIf="!isAuth">
+        <a routerLink="/fitness/signup">
+          <mat-icon>login</mat-icon>
+          SignUp
+        </a>
+      </li>
+      <li *ngIf="!isAuth">
+        <a routerLink="/fitness/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </a>
+      </li>
+      <li *ngIf="isAuth">
+        <a (click)="onLogout()">
+          <mat-icon>eject</mat-icon>
+          LogOut
+        </a>
+      </li>
+    </ul>
   </section>
 </mat-toolbar>

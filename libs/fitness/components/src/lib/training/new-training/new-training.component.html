@@ -4,22 +4,18 @@
     <form [formGroup]="newTrainingForm">
       <div class="form-container">
         <mat-form-field class="formField">
-          <mat-label>Favorite Sport</mat-label>
-          <mat-select formControlName="favoriteSport">
-            <mat-option value="HIIT">
-              High-Intensity Interval Training (HIIT)
+          <mat-label>Choose Exercise</mat-label>
+          <mat-select formControlName="favoriteSport" required>
+            <mat-option
+              *ngFor="let exercise of exercises"
+              [value]="exercise.id">
+              {{ exercise.name }}
             </mat-option>
-            <mat-option value="Strength Training">
-              Strength Training
-            </mat-option>
-            <mat-option value="Yoga"> Yoga </mat-option>
-            <mat-option value="Running"> Running </mat-option>
-            <mat-option value="Pilates"> Pilates </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="formField">
           <mat-label>Training Minutes</mat-label>
-          <mat-select formControlName="selectedMinutes">
+          <mat-select formControlName="selectedMinutes" required>
             <mat-option value="1"> 1 </mat-option>
             <mat-option value="5"> 5 </mat-option>
             <mat-option value="10"> 10 </mat-option>
@@ -31,13 +27,11 @@
         type="submit"
         mat-raised-button
         color="accent"
+        [disabled]="newTrainingForm.invalid"
         (click)="onStartTraining()">
         Start Training
       </button>
     </form>
   </mat-card-content>
-  <img
-    mat-card-image
-    src="../assets/images/workout.png"
-    alt="Woman showing active workout" />
+  <img mat-card-image [src]="currentImage" alt="Woman showing active workout" />
 </mat-card>

@@ -1,0 +1,16 @@
+.filter {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 40%;
+  margin: 0 auto; /* To horizontally center the 40% width container */
+  /* Add any other styling you need */
+}
+
+
+@media screen and (max-width: 680px) {
+  .filter {
+    width: 100%;
+  }
+}
+

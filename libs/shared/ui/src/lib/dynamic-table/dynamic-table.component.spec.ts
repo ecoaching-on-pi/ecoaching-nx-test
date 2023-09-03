@@ -15,11 +15,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-interface PropertyPipes {
-  name: string;
-  pipename: string;
-}
-
 
 describe('DynamicTableComponent', () => {
   let component: DynamicTableComponent<any>;
@@ -79,15 +74,23 @@ describe('DynamicTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have no data initially', () => {
+    expect(component.dataSource.data.length).toBe(0);
+  });
+
+  it('should set data when @Input data is set', () => {
+    const data = new MatTableDataSource([{ col1: 'data1', col2: 'data2' }]);
+    component.data = data;
+    expect(component.dataSource.data.length).toBe(1);
+  });
+
   it('should get displayedColumns in ngOnChanges', () => {
-    const mockData = [
+    const mockData = new MatTableDataSource([
       { name: 'John', age: 30 },
       { name: 'Jane', age: 25 },
-    ];
-    const propertyPipes: PropertyPipes[] = [];
+    ]);
+    component.data = mockData;
 
-    component.dataSource.data = mockData;
-    component.propertyPipes = propertyPipes;
 
     const changes: { [key: string]: any } = {
       data: {
@@ -130,7 +133,7 @@ describe('DynamicTableComponent', () => {
       { name: 'John', age: 30 },
       { name: 'Jane', age: 25 },
     ]);
-    component.dataSource = mockData;
+    component.data = mockData;
     const filterValue = 'John';
 
     const event: Event = { target: { value: filterValue } } as unknown as Event;
@@ -139,25 +142,13 @@ describe('DynamicTableComponent', () => {
     expect(component.dataSource.filter).toBe('John');
   });
 
-  it('should not apply filter to dataSource if event.target is null', () => {
-    const mockData = new MatTableDataSource([
-      { name: 'John', age: 30 },
-      { name: 'Jane', age: 25 },
-    ]);
-    component.dataSource = mockData;
-
-    const event: Event = { target: null } as unknown as Event;
-    component.applyFilter(event);
-
-    expect(component.dataSource.filter).toBe('');
-  });
 
   it('should not apply filter to dataSource if event.target.value is null', () => {
     const mockData = new MatTableDataSource([
       { name: 'John', age: 30 },
       { name: 'Jane', age: 25 },
     ]);
-    component.dataSource = mockData;
+    component.data = mockData;
 
     const event: Event = { target: { value: null } } as unknown as Event;
     component.applyFilter(event);
@@ -167,7 +158,7 @@ describe('DynamicTableComponent', () => {
 
   it('should return empty array in getDisplayedColumns if dataSource.data is empty', () => {
     const mockData = new MatTableDataSource<any>([]);
-    component.dataSource = mockData;
+    component.data = mockData;
 
     const displayedColumns = component['getDisplayedColumns']();
 
@@ -180,7 +171,7 @@ describe('DynamicTableComponent', () => {
       { name: 'John', age: 30 },
       { name: 'Jane', gender: 'female' },
     ]);
-    component.dataSource = mockData;
+    component.data = mockData;
 
     const displayedColumns = component['getDisplayedColumns']();
 

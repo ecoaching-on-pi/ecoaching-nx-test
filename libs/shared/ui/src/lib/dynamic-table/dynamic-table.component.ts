@@ -22,20 +22,33 @@ interface PropertyPipes {
   styleUrls: ['./dynamic-table.component.scss'],
 })
 
-@LogAllMethodOutputs
 export class DynamicTableComponent<T> implements OnChanges, AfterViewInit {
-  @Input() data: MatTableDataSource<T> = new MatTableDataSource<T>(); // Input data with varying properties
-  @Input() propertyPipes: PropertyPipes[] = []; // Pipes to apply to specific properties
+  private _data: MatTableDataSource<T> = new MatTableDataSource<T>();
+  private _propertyPipes: PropertyPipes[] = [];
+
+  @Input() set data(data: MatTableDataSource<T>) {
+    this._data = data;
+    console.log('data there?', data.data);
+    }
+    get dataSource(): MatTableDataSource<T> {
+      return this._data;
+    }
+  @Input() set propertyPipes(propertyPipes: PropertyPipes[]) {
+     this._propertyPipes = propertyPipes;
+     console.log('propertyPipes there?', propertyPipes);
+  }; // Pipes to apply to specific properties
+  get propertyPipes(): PropertyPipes[] {
+    return this._propertyPipes;
+  }
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource: MatTableDataSource<T> = this.data;
   displayedColumns: string[] = [];
   pipeNames: string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'] && this.data) { // Check if data is defined
+    if (changes['data'] && this.dataSource) { // Check if data is defined
       this.displayedColumns = this.getDisplayedColumns();
     }
   }

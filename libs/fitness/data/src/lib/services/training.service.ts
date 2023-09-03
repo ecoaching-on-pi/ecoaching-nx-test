@@ -46,6 +46,7 @@ export class TrainingService {
       state: 'cancelled',
     };
     this.exercises.data.push(newExercise);
+    console.log('Exercises?', this.exercises.data);
     this.exerciseChanged.next(null);
     this.runningExercise = null;
   }
@@ -54,6 +55,7 @@ export class TrainingService {
   }
 
   getCompletedOrCancelledExercises(): MatTableDataSource<Exercise> {
+    console.log('Exercises canceled?', this.exercises)
     return this.exercises;
   }
 }

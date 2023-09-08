@@ -7,7 +7,7 @@
     "indexes": "apps/fitness/nx-echoaching-test/firestore.indexes.json"
   },
   "hosting": {
-    "public": "apps/fitness/nx-echoaching-test/public",
+    "public": "dist/apps/fitness",
     "ignore": [
       "firebase.json",
       "**/.*",

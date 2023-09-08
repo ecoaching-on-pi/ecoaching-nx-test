@@ -23,7 +23,7 @@
   "storage": {
       "rules": "apps/fitness/ecoaching-test/storage.rules"
   },
-
+  "functions": [],
   "emulators": {
     "auth": {
       "port": 9099

@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx run fitness:serve:development -o",
-    "build": "nx run fitness:build:development",
+    "build": "nx run fitness:build:production",
+    "build-dev": "nx run fitness:build:development",
     "test": "nx run fitness:test:development",
     "prettier": "prettier --write \"apps/**/*.{ts,js,html,scss,json,md}\" \"libs/**/*.{ts,js,html,scss,json,md}\" \"tools/**/*.{ts,js,html,scss,json,md}\"",
     "migrate": "npx nx migrate latest --interactive && npx nx migrate --run-migrations",

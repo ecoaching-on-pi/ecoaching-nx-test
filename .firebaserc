@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "ecoaching-test"
-  }
+  },
+  "targets": {
+    "ecoaching-test": {
+      "hosting": {
+        "fitness": [
+          "ecoaching-test"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

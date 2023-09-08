@@ -1,15 +1,8 @@
 {
   "projects": {
-    "default": "ecoaching-test"
+    "nx-staging": "nx-ecoaching-test",
+    "default": "nx-ecoaching-test"
   },
-  "targets": {
-    "ecoaching-test": {
-      "hosting": {
-        "fitness": [
-          "ecoaching-test"
-        ]
-      }
-    }
-  },
+  "targets": {},
   "etags": {}
 }

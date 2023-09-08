@@ -63,3 +63,6 @@ Nx comes with local caching already built-in (check your `nx.json`). On CI you m
 ## target hosting
 
 firebase target:apply hosting fitness ecoaching-test
+firebase deploy --config=firebase.<appname>.json
+
+firebase deploy --config=firebase.fitness-nx-echoaching-test.json

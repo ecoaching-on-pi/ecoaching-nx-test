@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "nx-staging": "nx-ecoaching-test",
+    "default": "nx-ecoaching-test"
+  },
+  "targets": {},
+  "etags": {}
+}

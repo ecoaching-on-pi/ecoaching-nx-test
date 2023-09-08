@@ -1,13 +1,13 @@
 {
   "database": {
-    "rules": "apps/fitness/nx-echoaching-test/database.rules.json"
+    "rules": "database.rules.json"
   },
   "firestore": {
-    "rules": "apps/fitness/nx-echoaching-test/firestore.rules",
-    "indexes": "apps/fitness/nx-echoaching-test/firestore.indexes.json"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "apps/fitness/nx-echoaching-test/public",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -20,13 +20,9 @@
       }
     ]
   },
-
   "emulators": {
     "auth": {
       "port": 9099
-    },
-    "functions": {
-      "port": 5001
     },
     "firestore": {
       "port": 8080
@@ -36,15 +32,6 @@
     },
     "hosting": {
       "port": 5000
-    },
-    "pubsub": {
-      "port": 8085
-    },
-    "storage": {
-      "port": 9199
-    },
-    "eventarc": {
-      "port": 9299
     },
     "ui": {
       "enabled": true

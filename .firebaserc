@@ -1,6 +1,7 @@
 {
-  "targets": {
-  },
   "projects": {
-  }
+    "staging": "ecoaching-test"
+  },
+  "targets": {},
+  "etags": {}
 }

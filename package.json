@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "emulator-start": "firebase emulators:start --config=firebase.fitness-nx-echoaching-test.json",
     "start": "nx run fitness:serve:development -o",
     "build": "nx run fitness:build:production",
     "build-dev": "nx run fitness:build:development",

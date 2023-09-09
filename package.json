@@ -7,6 +7,7 @@
     "build": "nx run fitness:build:production",
     "build-dev": "nx run fitness:build:development",
     "test": "nx run fitness:test:development",
+    "deploy-test": "firebase deploy --config=firebase.fitness-nx-echoaching-test.json",
     "prettier": "prettier --write \"apps/**/*.{ts,js,html,scss,json,md}\" \"libs/**/*.{ts,js,html,scss,json,md}\" \"tools/**/*.{ts,js,html,scss,json,md}\"",
     "migrate": "npx nx migrate latest --interactive && npx nx migrate --run-migrations",
     "generate-api": "npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-angular -o ./src/typescript-angular-client-generated"

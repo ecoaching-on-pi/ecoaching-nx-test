@@ -26,12 +26,12 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit{
    firebaseApp = initializeApp(environment.firebase);
    firestore = getFirestore()
-   firestoreIntroDb = doc(this.firestore, 'firestoreDemo/lab-demo-0001')
+   firestoreIntroDb = doc(this.firestore, 'firestoreDemo2/lab-demo-0002')
 
    ngOnInit(): void {
     const docData = {
-      title: 'Firebase Fundamentals Demo',
-      description: 'Getting started with Cloud Firestore',
+      title: 'Firebase Fundamentals Demo2',
+      description: 'Getting started with Cloud Firestore2',
     }
       setDoc(this.firestoreIntroDb, docData)
       console.log('Firebase app initialized', docData)

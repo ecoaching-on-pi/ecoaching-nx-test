@@ -1,13 +1,29 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
+import { initializeApp } from 'firebase/app'
+import { getFirestore, doc, setDoc,DocumentReference, DocumentData, Firestore  } from 'firebase/firestore'
 
+const firebase = {
+  projectId: 'nx-ecoaching-test',
+  appId: '1:1077287644488:web:d62a5b93dcb6f625ae577d',
+  databaseURL: 'https://nx-ecoaching-test-default-rtdb.europe-west1.firebasedatabase.app',
+  storageBucket: 'nx-ecoaching-test.appspot.com',
+  apiKey: 'AIzaSyAwFiGjK6qjCn_P21r2ShC2xavNXL9bV84',
+  authDomain: 'nx-ecoaching-test.firebaseapp.com',
+  messagingSenderId: '1077287644488',
+  measurementId: 'G-YYW7CPNVTL',
+}
 @Component({
   selector: 'ecoaching-on-pi-new-training',
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit {
+  firebaseApp;
+  firestore: Firestore | undefined;
+  firestoreIntroDb!: DocumentReference<DocumentData>;
+
   newTrainingForm: FormGroup;
   images: string[] = [
     'fat-african-running1.png',
@@ -58,8 +74,30 @@ export class NewTrainingComponent implements OnInit {
       favoriteSport: '',
       selectedMinutes: '',
     });
+    try {
+      this.firebaseApp = initializeApp(firebase);
+      this.firestore = getFirestore(this.firebaseApp);
+      this.firestoreIntroDb = doc(this.firestore, 'firestoreDemo3/lab-demo-0003');
+
+
+    } catch (error) {
+      console.error('Error initializing Firebase: ', error);
+    }
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const docData = {
+      title: 'Firebase Fundamentals Demo3',
+      description: 'Getting started with Cloud Firestore3',
+    };
+
+
+    try {
+      await setDoc(this.firestoreIntroDb, docData);
+      console.log('Firebase app initialized', docData);
+    } catch (error) {
+      console.error('Error writing to Firestore: ', error);
+    }
+
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
     this.exercises = this.trainingService.getAvailableExercises();

@@ -5,10 +5,13 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
-import { environment } from '../environments/environment';
+import { Component} from '@angular/core';
+// import { initializeApp } from 'firebase/app'
+// import { getFirestore, doc, getDoc } from 'firebase/firestore'
+// import { environment } from '../environments/environment';
+
+
+
 
 @Component({
   selector: 'ecoaching-on-pi-root',
@@ -23,17 +26,10 @@ import { environment } from '../environments/environment';
     ]),
   ],
 })
-export class AppComponent implements OnInit{
-   firebaseApp = initializeApp(environment.firebase);
-   firestore = getFirestore()
-   firestoreIntroDb = doc(this.firestore, 'firestoreDemo2/lab-demo-0002')
+export class AppComponent {
+  //  firebaseApp = initializeApp(environment.firebase);
+  //  firestore = getFirestore()
+  //  firestoreIntroDb = doc(this.firestore, 'availableExercises/yoga-training')
 
-   ngOnInit(): void {
-    const docData = {
-      title: 'Firebase Fundamentals Demo2',
-      description: 'Getting started with Cloud Firestore2',
-    }
-      setDoc(this.firestoreIntroDb, docData)
-      console.log('Firebase app initialized', docData)
-   }
+
 }

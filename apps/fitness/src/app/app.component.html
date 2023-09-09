@@ -7,6 +7,10 @@
     <ecoaching-on-pi-header
       (sidenavToggle)="sidenav.toggle()"></ecoaching-on-pi-header>
     <main [@fadeInOut]>
+      <!-- <div *ngFor=" let item of item$ |async">
+        <h1>{{item.name}}</h1>
+        <p>{{item.calories}}</p>
+      </div> -->
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

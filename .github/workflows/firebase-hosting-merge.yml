@@ -17,4 +17,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ECOACHING_TEST }}'
           channelId: live
-          projectId: ecoaching-test
+          projectId: nx-ecoaching-test

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Exercise } from '../interfaces/exercise.model';
-import { Subject } from 'rxjs';
+import { Subject, catchError, finalize, of, take, timeout } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { inject } from '@angular/core';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -11,38 +10,47 @@ import { Observable } from 'rxjs';
 })
 export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
-
   exercise$: Observable<Exercise[]> = new Observable<Exercise[]>();
-  firestore: Firestore = inject(Firestore);
 
-  private availableExercises: Exercise[] = [];
   private runningExercise: Exercise | null = null;
   private exercises: MatTableDataSource<Exercise> = new MatTableDataSource();
+
+  constructor(private firestore: Firestore) {}
+
   getAvailableExercises(): Observable<Exercise[]> {
     const itemCollection = collection(this.firestore, 'availableExercises');
     this.exercise$ = collectionData(itemCollection) as Observable<Exercise[]>;
-    this.exercise$.subscribe((exercises) => {
-      this.availableExercises = exercises;
-      }
-    );
-    return this.exercise$
 
+    return this.exercise$
   }
 
   startexercise(selectedId: string): void {
-    this.runningExercise = this.availableExercises.find(
-      ex => ex.id === selectedId
-    ) as Exercise;
-    this.exerciseChanged.next({ ...this.runningExercise });
-  }
+    this.exercise$.pipe(
+        take(1),
+        timeout(5000),  // If no value is emitted in 5 seconds, throw an error.
+        catchError(err => {
+            console.error('An error occurred in startexercise:', err);
+            // Handle the error, maybe show a user-friendly message or retry the operation.
+            // Here, I'm returning an empty array, but adapt this based on your needs.
+            return of([]);
+        }),
+        finalize(() => {
+            // Any cleanup or final operations can be placed here.
+            // This block will execute after the observable completes or errors out.
+        })
+    ).subscribe((exercises) => {
+        this.runningExercise = exercises.find((ex) => ex.id === selectedId)|| null;
+        this.exerciseChanged.next({ ...this.runningExercise as Exercise });
+    });
+}
 
   completeExercise(secondsDone: number): void {
-    this.exercises.data.push({
+    this.exercises.data = [...this.exercises.data, {
       ...(this.runningExercise as Exercise),
       duration: secondsDone as number,
       date: new Date(),
       state: 'completed',
-    });
+    }];
     this.runningExercise = null;
     this.exerciseChanged.next(null);
   }
@@ -54,7 +62,7 @@ export class TrainingService {
       date: new Date(),
       state: 'cancelled',
     };
-    this.exercises.data.push(newExercise);
+    this.exercises.data = [...this.exercises.data, newExercise];
     this.exerciseChanged.next(null);
     this.runningExercise = null;
   }

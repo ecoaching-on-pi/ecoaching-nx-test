@@ -1,6 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
+import { inject } from '@angular/core';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'ecoaching-on-pi-new-training',
@@ -8,6 +12,10 @@ import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit {
+
+  exercises$: Observable<Exercise[]> = new Observable<Exercise[]>();
+  firestore: Firestore = inject(Firestore);
+
   newTrainingForm: FormGroup;
   images: string[] = [
     'fat-african-running1.png',
@@ -58,11 +66,18 @@ export class NewTrainingComponent implements OnInit {
       favoriteSport: '',
       selectedMinutes: '',
     });
+
   }
-  ngOnInit(): void {
+ ngOnInit(): void {
+  // const itemCollection = collection(this.firestore, 'availableExercises');
+  //    this.exercise$ = collectionData(itemCollection) as Observable<Exercise[]>;
+  //    this.exercise$.subscribe((data) => { console.log('New training',data); });
+
+
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
-    this.exercises = this.trainingService.getAvailableExercises();
+    this.exercises$ = this.trainingService.getAvailableExercises();
+    console.log('New training neu',this.exercises);
   }
 
   onStartTraining(): void {

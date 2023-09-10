@@ -5,7 +5,13 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+// import { initializeApp } from 'firebase/app'
+// import { getFirestore, doc, getDoc } from 'firebase/firestore'
+// import { environment } from '../environments/environment';
+
+
+
 
 @Component({
   selector: 'ecoaching-on-pi-root',
@@ -20,4 +26,10 @@ import { Component } from '@angular/core';
     ]),
   ],
 })
-export class AppComponent {}
+export class AppComponent {
+  //  firebaseApp = initializeApp(environment.firebase);
+  //  firestore = getFirestore()
+  //  firestoreIntroDb = doc(this.firestore, 'availableExercises/yoga-training')
+
+
+}

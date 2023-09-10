@@ -2,22 +2,31 @@ import { Injectable } from '@angular/core';
 import { Exercise } from '../interfaces/exercise.model';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { inject } from '@angular/core';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
-  private availableExercises: Exercise[] = [
-    { id: 'crunches', name: 'Crunches', calories: 8 },
-    { id: 'touch-toes', name: 'Touch Toes', calories: 15 },
-    { id: 'side-lunges', name: 'Side Lunges', calories: 18 },
-    { id: 'burpees', name: 'Burpees', calories: 8 },
-  ];
+
+  exercise$: Observable<Exercise[]> = new Observable<Exercise[]>();
+  firestore: Firestore = inject(Firestore);
+
+  private availableExercises: Exercise[] = [];
   private runningExercise: Exercise | null = null;
   private exercises: MatTableDataSource<Exercise> = new MatTableDataSource();
-  getAvailableExercises(): Exercise[] {
-    return this.availableExercises.slice();
+  getAvailableExercises(): Observable<Exercise[]> {
+    const itemCollection = collection(this.firestore, 'availableExercises');
+    this.exercise$ = collectionData(itemCollection) as Observable<Exercise[]>;
+    this.exercise$.subscribe((exercises) => {
+      this.availableExercises = exercises;
+      }
+    );
+    return this.exercise$
+
   }
 
   startexercise(selectedId: string): void {

@@ -2,7 +2,6 @@
   "projects": {
     "default": "nx-ecoaching-test"
   },
-  "targets": {
-  },
+  "targets": {},
   "etags": {}
 }

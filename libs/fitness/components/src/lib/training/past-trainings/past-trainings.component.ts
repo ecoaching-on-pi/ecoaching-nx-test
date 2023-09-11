@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -13,7 +14,7 @@ export class PastTrainingsComponent implements OnInit {
     { name: 'Squat', duration: 300, calories: 8 },
     { name: 'Benchpress', duration: 220, calories: 5 },
   ];
-  dataSource: MatTableDataSource<Exercise> = new MatTableDataSource();
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   constructor(private trainingService: TrainingService) {}
 
   ngOnInit(): void {

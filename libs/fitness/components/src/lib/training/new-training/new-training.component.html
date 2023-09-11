@@ -8,7 +8,7 @@
           <mat-select formControlName="favoriteSport" required>
             <mat-option
               *ngFor="let exercise of exercises$ | async"
-              [value]="exercise.id">
+              [value]="exercise.doc_id">
               {{ exercise.name }}
             </mat-option>
           </mat-select>

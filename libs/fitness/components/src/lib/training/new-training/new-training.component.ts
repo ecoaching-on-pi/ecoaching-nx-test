@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class NewTrainingComponent implements OnInit {
 
-  exercises$: Observable<Exercise[]> = new Observable<Exercise[]>();
+  exercises$!: Promise<any[]>;
   firestore: Firestore = inject(Firestore);
 
   newTrainingForm: FormGroup;
@@ -77,6 +78,7 @@ export class NewTrainingComponent implements OnInit {
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
     this.exercises$ = this.trainingService.getAvailableExercises();
+
     console.log('New training neu',this.exercises);
   }
 

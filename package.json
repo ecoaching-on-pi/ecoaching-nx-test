@@ -28,10 +28,12 @@
     "@angular/router": "~16.2.0",
     "@nx/angular": "16.7.2",
     "@simondotm/nx-firebase": "^2.0.0",
+    "countries-list": "^2.6.1",
     "dotenv": "^16.3.1",
     "firebase": "^9.14.0",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
+    "papaparse": "^5.4.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
 import { inject } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -12,9 +13,10 @@ import { Observable } from 'rxjs';
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.scss'],
 })
-export class NewTrainingComponent implements OnInit {
+export class NewTrainingComponent implements OnInit, OnDestroy {
 
   exercises$!: Promise<any[]>;
+  exercises2$: Observable<any[]> = new Observable<any[]>
   firestore: Firestore = inject(Firestore);
 
   newTrainingForm: FormGroup;
@@ -77,7 +79,7 @@ export class NewTrainingComponent implements OnInit {
 
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
-    this.exercises$ = this.trainingService.getAvailableExercises();
+    this.exercises2$ = this.trainingService.exercises2$;
 
     console.log('New training neu',this.exercises);
   }
@@ -87,5 +89,9 @@ export class NewTrainingComponent implements OnInit {
       this.newTrainingForm.value.favoriteSport
     );
     this.selectedMinutesChange.emit(this.newTrainingForm.value.selectedMinutes);
+  }
+
+  ngOnDestroy(): void {
+    this.trainingService.stopListeningToExercises();
   }
 }

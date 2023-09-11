@@ -7,7 +7,7 @@
           <mat-label>Choose Exercise</mat-label>
           <mat-select formControlName="favoriteSport" required>
             <mat-option
-              *ngFor="let exercise of exercises$ | async"
+              *ngFor="let exercise of exercises2$ | async"
               [value]="exercise.doc_id">
               {{ exercise.name }}
             </mat-option>

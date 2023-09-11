@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { Firestore,  collection, getDocs } from '@angular/fire/firestore';
+import { Firestore,  collection, getDocs, onSnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,33 +10,84 @@ import { Observable } from 'rxjs';
 })
 export class TrainingService {
   exerciseChanged = new Subject<any | null>();
-  exercise$: Observable<any[]> = new Observable<any[]>();
+  // exercise$: Observable<any[]> = new Observable<any[]>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: any[] = [];
 
   private runningExercise: any | null = null;
   private exercises: MatTableDataSource<any> = new MatTableDataSource();
 
+  private unsubscribe$ = new Subject<void>();
+
+
+// setup a data listener to listen to changes in the collection. Use takeUntil to manage unsubscription
+// use collectionData to get the data as an Observable
+// use onSnapshot to listen to changes in the collection, and emit the updated data to the Observable
+// use collection to get the collection reference
+// use getDocs to get the data as a Promise
+// for mapping data onSnapshot, use the forEach operator
+  exercises2$: Observable<any[]> = new Observable<any[]>((observer) => {
+    const itemCollection = collection(this.firestore, 'availableExercises');
+
+    const unsubscribe = onSnapshot(itemCollection, (querySnapshot) => {
+        this.query = [];
+        querySnapshot.forEach(documentSnapshot => {
+            this.query.push({ doc_id: documentSnapshot.id, ...documentSnapshot.data() });
+        });
+        observer.next(this.query);  // Emit the fetched data
+    }, (error) => {
+        observer.error(error);
+    });
+
+    // Returning the unsubscribe function to be called when the Observable is unsubscribed from
+    return () => {
+        unsubscribe();
+    };
+}).pipe(
+    takeUntil(this.unsubscribe$)  // Use takeUntil to manage unsubscription
+);
+
   constructor(private firestore: Firestore) {}
 
+
+
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
- async getAvailableExercises(): Promise<any[]> {
+
+
+ private unsubscribeFromExercises?: () => void;  // Store the unsubscribe function
+
+ getAvailableExercises(): void {
+     const itemCollection = collection(this.firestore, 'availableExercises');
+
+     // Store the unsubscribe function returned by onSnapshot
+     this.unsubscribeFromExercises = onSnapshot(itemCollection, (querySnapshot) => {
+         // Reset the query array
+         this.query = [];
+
+         querySnapshot.forEach(documentSnapshot => {
+             this.query.push({ doc_id: documentSnapshot.id, ...documentSnapshot.data() });
+         });
+     }, (error) => {
+         console.error("Error fetching available exercises:", error);
+     });
+ }
+
+
+// calls only once with getDocs. For updates use onSnapshot
+ async getLatestExercises(): Promise<any[]> {
   try {
       const itemCollection = collection(this.firestore, 'availableExercises');
-
-      // Initialize this.query as an empty array
-      this.query = [];
+      const exercises: any[] = [];
 
       const querySnapshot = await getDocs(itemCollection);
-
       querySnapshot.forEach(documentSnapshot => {
-          this.query.push({ doc_id: documentSnapshot.id, ...documentSnapshot.data() });
+          exercises.push({ doc_id: documentSnapshot.id, ...documentSnapshot.data() });
       });
 
-      return this.query;
+      return exercises;
   } catch (error) {
       console.error("Error fetching available exercises:", error);
-      throw error;  // Re-throwing the error if you want to handle it upstream, or you can handle it here directly.
+      throw error;
   }
 }
 
@@ -77,4 +128,12 @@ export class TrainingService {
   getCompletedOrCancelledExercises(): MatTableDataSource<any> {
     return this.exercises;
   }
+  //  // Call this method when you want to stop listening to updates
+ stopListeningToExercises(): void {
+  if (this.unsubscribeFromExercises) {
+      this.unsubscribeFromExercises();
+  }
+  this.unsubscribe$.next();
+  this.unsubscribe$.complete();
+}
 }

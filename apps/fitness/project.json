@@ -27,6 +27,9 @@
           "@angular/material/prebuilt-themes/indigo-pink.css",
           "apps/fitness/src/styles.scss"
         ],
+        "allowedCommonJsDependencies": [
+          "countries-list"
+       ],
         "scripts": []
       },
       "configurations": {

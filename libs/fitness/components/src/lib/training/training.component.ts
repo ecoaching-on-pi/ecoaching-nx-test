@@ -19,10 +19,10 @@ export class TrainingComponent implements OnInit, OnDestroy {
       exercise => {
         if (exercise) {
           this.ongoingTraining = true;
-          console.log('exercise', this.ongoingTraining);
+
         } else {
           this.ongoingTraining = false;
-          console.log('exercise', this.ongoingTraining);
+
         }
       }
     );

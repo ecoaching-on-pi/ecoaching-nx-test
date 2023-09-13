@@ -81,8 +81,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
     this.exercises2$ = this.trainingService.exercises2$;
-
-    console.log('New training neu',this.exercises);
   }
 
   onStartTraining(): void {
@@ -93,7 +91,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("ngOnDestroy of new-training component called");
     this.trainingService.stopListeningToExercises();
   }
 }

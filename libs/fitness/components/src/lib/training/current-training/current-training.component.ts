@@ -42,11 +42,10 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
     this.timerId = setInterval(() => {
       this.minutes = Math.floor(this.remainingSeconds / 60);
       this.seconds = this.remainingSeconds % 60;
-      console.log('startTimer', this.remainingSeconds);
+
 
       if (this.remainingSeconds <= 0) {
         clearInterval(this.timerId);
-        console.log('Timer completed!');
         this.trainingService.completeExercise(this.secondsDone, this.trainingName);
       }
       this.secondsDone++;
@@ -55,7 +54,6 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
   }
 
   resumeTraining(minutesToDo: number, secondsDone: number): void {
-    console.log('resumeTraining', minutesToDo, secondsDone);
     this.startTimer(minutesToDo, secondsDone);
   }
 
@@ -64,7 +62,6 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
 
     const progress = secondsDone;
 
-    console.log('onStopTraining', this.totalMinutes);
     const dialogRef = this.matDialog.open(StopTrainingComponent, {
       data: { minutes: this.minutes, seconds: this.seconds },
     });
@@ -86,7 +83,6 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.timerId) {
-      console.log('ngOnDestroy_TimerId', this.timerId);
       clearInterval(this.timerId);
     }
   }

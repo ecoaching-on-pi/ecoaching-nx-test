@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
 import { Firestore,  addDoc,  collection, doc, getDocs, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -13,11 +12,13 @@ export class TrainingService {
   // exercise$: Observable<any[]> = new Observable<any[]>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: any[] = [];
+  finishedExercisesChanged = new Subject<any[]>();
 
   private runningExercise: any | null = null;
-  private exercises: MatTableDataSource<any> = new MatTableDataSource();
 
   private unsubscribe$ = new Subject<void>();
+  private unsubscribeFromAvailableExercises?: () => void;  // Store the unsubscribe function
+  private unsubscribeFromCompletedExercises?: () => void;  // Store the unsubscribe function
 
 
 // setup a data listener to listen to changes in the collection. Use takeUntil to manage unsubscription
@@ -54,13 +55,11 @@ export class TrainingService {
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 
- private unsubscribeFromExercises?: () => void;  // Store the unsubscribe function
-
  getAvailableExercises(): void {
      const itemCollection = collection(this.firestore, 'availableExercises');
 
      // Store the unsubscribe function returned by onSnapshot
-     this.unsubscribeFromExercises = onSnapshot(itemCollection, (querySnapshot) => {
+     this.unsubscribeFromAvailableExercises = onSnapshot(itemCollection, (querySnapshot) => {
          // Reset the query array
          this.query = [];
 
@@ -128,8 +127,19 @@ export class TrainingService {
     return { ...(this.runningExercise as any) };
   }
 
-  getCompletedOrCancelledExercises(): MatTableDataSource<any> {
-    return this.exercises;
+  getCompletedOrCancelledExercises(): Observable<any> {
+    const finishedCollection = collection(this.firestore, 'finishedExercises');
+    this.unsubscribeFromCompletedExercises = onSnapshot(finishedCollection, (querySnapshot) => {
+      const finishedExercises: any[] = [];
+      querySnapshot.forEach(documentSnapshot => {
+          finishedExercises.push({ doc_id: documentSnapshot.id, ...documentSnapshot.data() });
+      });
+      this.finishedExercisesChanged.next(finishedExercises);
+  }, (error) => {
+      console.error("Error fetching finished exercises:", error);
+  });
+
+    return this.finishedExercisesChanged.asObservable();
   }
 
   private async addDataToDatabase(exercise: any): Promise<void> {
@@ -148,7 +158,6 @@ export class TrainingService {
 
     try {
       await setDoc(specificDoc, exercise);
-      console.log("Document successfully written!");
     } catch (error) {
       console.error("Error writing document: ", error);
     }
@@ -156,9 +165,13 @@ export class TrainingService {
 
   //  // Call this method when you want to stop listening to updates
  stopListeningToExercises(): void {
-  if (this.unsubscribeFromExercises) {
-    console.log('Unsubscribing from exercises this.unsubscribeFromExercises')
-      this.unsubscribeFromExercises();
+  if (this.unsubscribeFromAvailableExercises) {
+    console.log('Unsubscribing from exercises this.unsubscribeFromAvailableExercises')
+      this.unsubscribeFromAvailableExercises();
+  }
+  if(this.unsubscribeFromCompletedExercises) {
+    console.log('Unsubscribing from exercises this.unsubscribeFromCompletedExercises')
+  this.unsubscribeFromCompletedExercises();
   }
   if(this.unsubscribe$) {
     console.log('Unsubscribing from exercises this.unsubscribe$')

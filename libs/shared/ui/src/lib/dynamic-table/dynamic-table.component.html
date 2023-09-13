@@ -1,24 +1,24 @@
 
     <mat-form-field class="filter">
       <mat-label>Suche</mat-label>
-      <input matInput type="text" (keyup)="applyFilter($event)" placeholder="Suche">
+      <input matInput type="text" placeholder="Suche">
     </mat-form-field>
 
 
 
-<table mat-table [dataSource]="dataSource" matSort>
+<table mat-table  [dataSource]="dataSource" matSort>
   <!-- Dynamically generate columns -->
   <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
     <td mat-cell *matCellDef="let row; let i = index">
       <!-- If the column type is a date, use the date pipe -->
 
-      <ng-container *ngIf="isDate(row[column]); else defaultTemplate">
+      <!-- <ng-container *ngIf="isDate(row[column]); else defaultTemplate">
         {{ row[column] | date: 'short' }}
-      </ng-container>
-      <ng-template #defaultTemplate>
+      </ng-container> -->
+      <ng-container>
         {{ row[column] | dynamicPipe: column }}
-      </ng-template>
+      </ng-container>
     </td>
   </ng-container>
 
@@ -28,4 +28,6 @@
 </table>
 
 <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
 

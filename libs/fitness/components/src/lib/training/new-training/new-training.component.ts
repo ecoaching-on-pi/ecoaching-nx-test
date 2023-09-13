@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
-import { inject } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -11,12 +12,17 @@ import { Observable } from 'rxjs';
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.scss'],
 })
-export class NewTrainingComponent implements OnInit {
+export class NewTrainingComponent implements OnInit, OnDestroy {
 
-  exercises$: Observable<Exercise[]> = new Observable<Exercise[]>();
-  firestore: Firestore = inject(Firestore);
+  exercises$!: Promise<any[]>;
+  exercises2$: Observable<any[]> = new Observable<any[]>
 
-  newTrainingForm: FormGroup;
+
+  newTrainingForm: FormGroup = this.fb.group({
+    favoriteSport: '',
+    selectedMinutes: '',
+  });
+
   images: string[] = [
     'fat-african-running1.png',
     'fat-african-running2.png',
@@ -60,14 +66,12 @@ export class NewTrainingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private firestore: Firestore
   ) {
-    this.newTrainingForm = this.fb.group({
-      favoriteSport: '',
-      selectedMinutes: '',
-    });
 
   }
+
  ngOnInit(): void {
   // const itemCollection = collection(this.firestore, 'availableExercises');
   //    this.exercise$ = collectionData(itemCollection) as Observable<Exercise[]>;
@@ -76,8 +80,7 @@ export class NewTrainingComponent implements OnInit {
 
     const randomIndex = Math.floor(Math.random() * this.images.length);
     this.currentImage = 'assets/images/' + this.images[randomIndex];
-    this.exercises$ = this.trainingService.getAvailableExercises();
-    console.log('New training neu',this.exercises);
+    this.exercises2$ = this.trainingService.exercises2$;
   }
 
   onStartTraining(): void {
@@ -85,5 +88,9 @@ export class NewTrainingComponent implements OnInit {
       this.newTrainingForm.value.favoriteSport
     );
     this.selectedMinutesChange.emit(this.newTrainingForm.value.selectedMinutes);
+  }
+
+  ngOnDestroy(): void {
+    this.trainingService.stopListeningToExercises();
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AfterViewInit,
   Component,
@@ -9,7 +10,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { LogAllMethodOutputs } from '@ecoaching-on-pi/shared/utility';
+
 
 interface PropertyPipes {
   name: string;
@@ -22,20 +23,20 @@ interface PropertyPipes {
   styleUrls: ['./dynamic-table.component.scss'],
 })
 
-export class DynamicTableComponent<T> implements OnChanges, AfterViewInit {
-  private _data: MatTableDataSource<T> = new MatTableDataSource<T>();
+export class DynamicTableComponent<T> implements AfterViewInit, OnChanges {
+  private _data:  MatTableDataSource<T> = new MatTableDataSource<T>();
   private _propertyPipes: PropertyPipes[] = [];
 
-  @Input() set data(data: MatTableDataSource<T>) {
-    this._data = data;
-    console.log('data there?', data.data);
+  @Input() set data(data: T[]) {
+
+  this._data.data = data;
     }
-    get dataSource(): MatTableDataSource<T> {
+  get dataSource(): MatTableDataSource<T>{
       return this._data;
     }
+
   @Input() set propertyPipes(propertyPipes: PropertyPipes[]) {
      this._propertyPipes = propertyPipes;
-     console.log('propertyPipes there?', propertyPipes);
   }; // Pipes to apply to specific properties
   get propertyPipes(): PropertyPipes[] {
     return this._propertyPipes;
@@ -47,39 +48,35 @@ export class DynamicTableComponent<T> implements OnChanges, AfterViewInit {
   displayedColumns: string[] = [];
   pipeNames: string[] = [];
 
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'] && this.dataSource) { // Check if data is defined
+    if (changes['data'] && this._data) { // Check if data is defined
       this.displayedColumns = this.getDisplayedColumns();
     }
   }
 
   ngAfterViewInit(): void {
     if (this.sort) {
-      this.dataSource.sort = this.sort;
+      this._data.sort = this.sort;
     }
     if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+      this._data.paginator = this.paginator;
     }
   }
-
-  isDate(value: Date): boolean {
-    return value instanceof Date && !isNaN(value.getTime());
-  }
-
 
   applyFilter(event: Event): void {
     const filterValue = event.target ? (event.target as HTMLInputElement).value : '';
-    if (filterValue && this.dataSource) {
-      this.dataSource.filter = filterValue.trim();
+    if (filterValue && this._data) {
+      this._data.filter = filterValue.trim();
     }
   }
 
-
   private getDisplayedColumns(): string[] {
     // Collect all unique property names as columns
-    const allProperties = this.dataSource.data.flatMap((item: T) =>
+    const allProperties = this._data.data.flatMap((item: T) =>
       (Object.keys(item as object) as (keyof T)[]).map(String)
     );
     return Array.from(new Set(allProperties));
   }
+
 }

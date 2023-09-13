@@ -2,7 +2,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise, TrainingService } from '@ecoaching-on-pi/fitness/data';
-import { inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -17,9 +16,13 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   exercises$!: Promise<any[]>;
   exercises2$: Observable<any[]> = new Observable<any[]>
-  firestore: Firestore = inject(Firestore);
 
-  newTrainingForm: FormGroup;
+
+  newTrainingForm: FormGroup = this.fb.group({
+    favoriteSport: '',
+    selectedMinutes: '',
+  });
+
   images: string[] = [
     'fat-african-running1.png',
     'fat-african-running2.png',
@@ -63,14 +66,12 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private firestore: Firestore
   ) {
-    this.newTrainingForm = this.fb.group({
-      favoriteSport: '',
-      selectedMinutes: '',
-    });
 
   }
+
  ngOnInit(): void {
   // const itemCollection = collection(this.firestore, 'availableExercises');
   //    this.exercise$ = collectionData(itemCollection) as Observable<Exercise[]>;
@@ -92,6 +93,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log("ngOnDestroy of new-training component called");
     this.trainingService.stopListeningToExercises();
   }
 }

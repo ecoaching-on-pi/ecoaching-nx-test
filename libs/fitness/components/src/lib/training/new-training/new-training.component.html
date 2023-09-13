@@ -1,7 +1,9 @@
 <mat-card class="new-training">
-  <mat-card-header><h1>Workout Time</h1></mat-card-header>
+  <mat-card-header>
+    <h1>Workout Time</h1>
+  </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="newTrainingForm">
+    <form [formGroup]="newTrainingForm" (submit)="onStartTraining(); $event.preventDefault()">
       <div class="form-container">
         <mat-form-field class="formField">
           <mat-label>Choose Exercise</mat-label>
@@ -27,8 +29,7 @@
         type="submit"
         mat-raised-button
         color="accent"
-        [disabled]="newTrainingForm.invalid"
-        (click)="onStartTraining()">
+        [disabled]="newTrainingForm.invalid">
         Start Training
       </button>
     </form>

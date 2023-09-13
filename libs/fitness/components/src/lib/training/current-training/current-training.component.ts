@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StopTrainingComponent } from './stop-training.component';
 import { TrainingService } from '@ecoaching-on-pi/fitness/data';
@@ -8,7 +8,7 @@ import { TrainingService } from '@ecoaching-on-pi/fitness/data';
   templateUrl: './current-training.component.html',
   styleUrls: ['./current-training.component.scss'],
 })
-export class CurrentTrainingComponent implements OnInit {
+export class CurrentTrainingComponent implements OnInit, OnDestroy {
   @Input() totalMinutes = 1;
 
   minutes = 0;
@@ -16,15 +16,17 @@ export class CurrentTrainingComponent implements OnInit {
   secondsDone = 0;
   remainingSeconds = 0;
   trainingName = '';
+  timerId?: number;
   constructor(
     private matDialog: MatDialog,
     private trainingService: TrainingService
   ) {
-    this.trainingName = this.trainingService.getRunningExercise()
-      ?.name as string;
+
   }
 
   ngOnInit(): void {
+    this.trainingName = this.trainingService.getRunningExercise()
+    ?.name as string;
     this.startTimer(this.totalMinutes, this.secondsDone);
   }
 
@@ -32,14 +34,20 @@ export class CurrentTrainingComponent implements OnInit {
     this.remainingSeconds = minutesToDo * 60;
     this.secondsDone = secondsDone;
 
-    const timerInterval = setInterval(() => {
+    // Clear existing timer if there's one running
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+
+    this.timerId = setInterval(() => {
       this.minutes = Math.floor(this.remainingSeconds / 60);
       this.seconds = this.remainingSeconds % 60;
+      console.log('startTimer', this.remainingSeconds);
 
       if (this.remainingSeconds <= 0) {
-        clearInterval(timerInterval);
+        clearInterval(this.timerId);
         console.log('Timer completed!');
-        this.trainingService.completeExercise(this.secondsDone);
+        this.trainingService.completeExercise(this.secondsDone, this.trainingName);
       }
       this.secondsDone++;
       this.remainingSeconds--;
@@ -47,6 +55,7 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   resumeTraining(minutesToDo: number, secondsDone: number): void {
+    console.log('resumeTraining', minutesToDo, secondsDone);
     this.startTimer(minutesToDo, secondsDone);
   }
 
@@ -61,10 +70,24 @@ export class CurrentTrainingComponent implements OnInit {
     });
     dialogRef
       .afterClosed()
-      .subscribe(result =>
-        result
-          ? this.trainingService.cancelExercise(progress)
-          : this.resumeTraining(remainingMinutes, progress)
+      .subscribe(result => {
+        if (result) {
+          // Clear the timer when canceling
+          if (this.timerId) {
+              clearInterval(this.timerId);
+          }
+          this.trainingService.cancelExercise(progress, this.trainingName);
+      } else {
+          this.resumeTraining(remainingMinutes, progress);
+        }
+       }
       );
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerId) {
+      console.log('ngOnDestroy_TimerId', this.timerId);
+      clearInterval(this.timerId);
+    }
   }
 }

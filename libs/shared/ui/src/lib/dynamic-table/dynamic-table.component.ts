@@ -9,7 +9,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { LogAllMethodOutputs } from '@ecoaching-on-pi/shared/utility';
+
 
 interface PropertyPipes {
   name: string;

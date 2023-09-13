@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { Firestore,  collection, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore,  addDoc,  collection, doc, getDocs, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -99,27 +99,30 @@ export class TrainingService {
     }
 }
 
-  completeExercise(secondsDone: number): void {
-    this.exercises.data = [...this.exercises.data, {
+  completeExercise(secondsDone: number, trainingName: string): void {
+    this.addDataToDatabase({
       ...(this.runningExercise as any),
+      name: trainingName,
       duration: secondsDone as number,
       date: new Date(),
       state: 'completed',
-    }];
+    });
     this.runningExercise = null;
     this.exerciseChanged.next(null);
   }
 
-  cancelExercise(secondsDone: number): void {
+  cancelExercise(secondsDone: number, trainingName: string): void {
     const newExercise: any = {
       ...(this.runningExercise as any),
+      name: trainingName,
       duration: secondsDone as number,
       date: new Date(),
       state: 'cancelled',
     };
-    this.exercises.data = [...this.exercises.data, newExercise];
-    this.exerciseChanged.next(null);
+    this.addDataToDatabase(newExercise);
     this.runningExercise = null;
+    this.exerciseChanged.next(null);
+
   }
   getRunningExercise(): any | null {
     return { ...(this.runningExercise as any) };
@@ -128,12 +131,40 @@ export class TrainingService {
   getCompletedOrCancelledExercises(): MatTableDataSource<any> {
     return this.exercises;
   }
+
+  private async addDataToDatabase(exercise: any): Promise<void> {
+    const exercisesCollection = collection(this.firestore, 'finishedExercises');
+
+    try {
+      const docRef = await addDoc(exercisesCollection, exercise);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  }
+
+  private async addDataToDatabaseWithSpecificId(exercise: any, docId: string): Promise<void> {
+    const specificDoc = doc(this.firestore, 'finishedExercises', docId);
+
+    try {
+      await setDoc(specificDoc, exercise);
+      console.log("Document successfully written!");
+    } catch (error) {
+      console.error("Error writing document: ", error);
+    }
+  }
+
   //  // Call this method when you want to stop listening to updates
  stopListeningToExercises(): void {
   if (this.unsubscribeFromExercises) {
+    console.log('Unsubscribing from exercises this.unsubscribeFromExercises')
       this.unsubscribeFromExercises();
   }
+  if(this.unsubscribe$) {
+    console.log('Unsubscribing from exercises this.unsubscribe$')
   this.unsubscribe$.next();
   this.unsubscribe$.complete();
-}
+  }
+ }
+
 }

@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AuthService } from '@ecoaching-on-pi/fitness/data';
+import { AuthService } from '@ecoaching-on-pi/shared/service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,9 +22,9 @@ export class SidenavComponent implements OnDestroy, OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.authChange.subscribe(
-      authStatus => (this.isAuth = authStatus)
-    );
+    this.authSubscription = this.authService.isLoggedIn.subscribe((isLoggedIn: boolean) => {
+      this.isAuth = isLoggedIn;
+    });
   }
 
   onSidenavclose(): void {
@@ -32,7 +32,7 @@ export class SidenavComponent implements OnDestroy, OnInit {
   }
   onLogout(): void {
     this.onSidenavclose();
-    this.authService.logout();
+    this.authService.Logout();
   }
 
   ngOnDestroy(): void {

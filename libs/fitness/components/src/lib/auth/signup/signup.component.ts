@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '@ecoaching-on-pi/fitness/data';
+import { AuthService } from '@ecoaching-on-pi/shared/service';
 
 @Component({
   selector: 'ecoaching-on-pi-signup',
@@ -10,6 +10,9 @@ import { AuthService } from '@ecoaching-on-pi/fitness/data';
 export class SignupComponent {
   constructor(private authService: AuthService) {}
   onSubmit(form: NgForm): void {
-    console.log(form.value);
+    this.authService.Register(
+      form.value.email,
+      form.value.password,
+    );
   }
 }

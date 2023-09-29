@@ -15,8 +15,8 @@ export const fitnessComponentsRoutes: Route[] = [
   { path: 'products', component: ProductsComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  // { path: 'training', component: TrainingComponent, canActivate: [authGuard] },
-  { path: 'training', component: TrainingComponent },
+   { path: 'training', component: TrainingComponent, canActivate: [authGuard] },
+  // { path: 'training', component: TrainingComponent },
   {
     path: 'current-training',
     component: CurrentTrainingComponent,

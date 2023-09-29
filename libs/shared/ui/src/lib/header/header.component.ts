@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AuthService } from '@ecoaching-on-pi/fitness/data';
+import { AuthService } from '@ecoaching-on-pi/shared/service';
 import { Subscription } from 'rxjs';
 // import { countries} from 'countries-list'
 
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit,  OnDestroy {
   @Output() sidenavToggle = new EventEmitter<void>();
 
   isAuth = false;
@@ -22,15 +22,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authSubscription = this.authService.authChange.subscribe(
-      authStatus => (this.isAuth = authStatus)
-    );
-    // console.log(Object.values(countries).map(country => country.emoji + ' '+country.name + ' ' + country.languages));
-  }
+ngOnInit(): void {
+  this.authSubscription = this.authService.isLoggedIn.subscribe((isLoggedIn: boolean) => {
+    this.isAuth = isLoggedIn;
+  });
+
+}
 
   onLogout(): void {
-    this.authService.logout();
+    this.authService.Logout();
   }
 
   onSidenavToggle(): void {

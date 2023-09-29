@@ -14,8 +14,9 @@ import {
   User
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +26,7 @@ export class AuthService {
 
   UserData : any;
   isLoggedIn: Observable<boolean>;
-  constructor(private auth: Auth,private router : Router, public ngZone: NgZone){
+  constructor(private auth: Auth,private router : Router, public ngZone: NgZone, private snackBar: MatSnackBar){
     this.isLoggedIn = new Observable<boolean>(observer => {
       onAuthStateChanged(this.auth, (user: any) => {
         if (user) {
@@ -69,7 +70,8 @@ export class AuthService {
           });
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.snackBar.open(error.message, "", {
+            duration: 5000,});
         });
       }
 
@@ -84,7 +86,8 @@ export class AuthService {
           });
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.snackBar.open(error.message, "", {
+            duration: 5000,});
         });
       }
 
@@ -122,10 +125,11 @@ export class AuthService {
       async sendPasswordResetEmails({ email }: { email: string; }): Promise<void> {
          sendPasswordResetEmail(this.auth,email)
          .then(() => {
-            window.alert('Password reset email sent, check your inbox.');
+             this.snackBar.open('Password reset email sent, check your inbox.');
          })
          .catch((error) => {
-          window.alert(error.message);
+          this.snackBar.open(error.message, "", {
+            duration: 5000,});
         });
       }
 

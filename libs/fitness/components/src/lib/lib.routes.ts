@@ -7,7 +7,8 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
 import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './auth/login/login.component';
-import { authGuard } from '@ecoaching-on-pi/fitness/data';
+import { AuthGuard } from '@ecoaching-on-pi/fitness/data';
+import { inject } from '@angular/core';
 
 export const fitnessComponentsRoutes: Route[] = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
@@ -15,21 +16,21 @@ export const fitnessComponentsRoutes: Route[] = [
   { path: 'products', component: ProductsComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-   { path: 'training', component: TrainingComponent, canActivate: [authGuard] },
+   { path: 'training', component: TrainingComponent, canActivate: [() => inject(AuthGuard).canActivate()],  },
   // { path: 'training', component: TrainingComponent },
   {
     path: 'current-training',
     component: CurrentTrainingComponent,
-    canActivate: [authGuard],
+    canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
     path: 'new-training',
     component: NewTrainingComponent,
-    canActivate: [authGuard],
+    canActivate: [() => inject(AuthGuard).canActivate()],
   },
   {
     path: 'past-training',
     component: PastTrainingsComponent,
-    canActivate: [authGuard],
+    canActivate: [() => inject(AuthGuard).canActivate()],
   },
 ];

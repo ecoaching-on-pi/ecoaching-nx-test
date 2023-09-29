@@ -66,7 +66,7 @@ export class AuthService {
              /* Call the SendVerificaitonMail() function when new user sign
           up and returns promise */
             this.sendEmailVerification()
-            this.router.navigate(['']);
+            this.router.navigate(['welcome']);
           });
         })
         .catch((error) => {
@@ -82,7 +82,7 @@ export class AuthService {
         .then((result: any) => {
           this.UserData = result.user;
           this.ngZone.run(() => {
-            this.router.navigate(['']);
+            this.router.navigate(['welcome']);
           });
         })
         .catch((error) => {
@@ -94,7 +94,7 @@ export class AuthService {
 
      //Logout
       Logout(): void {
-        signOut(this.auth).then(()=>this.router.navigate(['']))
+        signOut(this.auth).then(()=>this.router.navigate(['login']))
       }
 
 

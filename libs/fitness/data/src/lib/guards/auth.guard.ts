@@ -1,13 +1,29 @@
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import {  Router } from '@angular/router';
 import { AuthService } from '@ecoaching-on-pi/shared/service';
+import { Observable, tap } from 'rxjs';
 
-export const authGuard = (): boolean => {
-  const authService = inject<AuthService>(AuthService);
-  const router = inject(Router);
-  if (authService.isLoggedIn) {
-    return true;
+@Injectable({ providedIn: 'root' })
+export class AuthGuard{
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): Observable<boolean> {
+    return this.authService.isLoggedIn.pipe(
+      tap((isLoggedIn: boolean) => {
+        if (!isLoggedIn) {
+          this.router.navigate(['login']);
+        }
+      })
+    );
   }
-  router.navigate(['/fitness/login']);
-  return false;
-};
+
+  canLoad(): Observable<boolean> {
+    return this.authService.isLoggedIn.pipe(
+      tap((isLoggedIn: boolean) => {
+        if (!isLoggedIn) {
+          this.router.navigate(['login']);
+        }
+      })
+    );
+  }
+}

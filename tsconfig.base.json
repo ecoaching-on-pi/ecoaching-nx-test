@@ -20,6 +20,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ecoaching-on-pi/ecoach/components": [
+        "libs/ecoach/components/src/index.ts"
+      ],
+      "@ecoaching-on-pi/ecoach/data": [
+        "libs/ecoach/data/src/index.ts"
+      ],
+      "@ecoaching-on-pi/ecoach/ui": [
+        "libs/ecoach/ui/src/index.ts"
+      ],
       "@ecoaching-on-pi/fitness/components": [
         "libs/fitness/components/src/index.ts"
       ],

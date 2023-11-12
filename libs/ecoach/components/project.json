@@ -1,0 +1,57 @@
+{
+  "name": "ecoach-components",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ecoach/components/src",
+  "prefix": "ecoaching-on-pi",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": [
+        "{workspaceRoot}/dist/{projectRoot}"
+      ],
+      "options": {
+        "project": "libs/ecoach/components/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ecoach/components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ecoach/components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/ecoach/components/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ecoach/components/**/*.ts",
+          "libs/ecoach/components/**/*.html",
+          "libs/ecoach/components/package.json"
+        ]
+      }
+    }
+  }
+}

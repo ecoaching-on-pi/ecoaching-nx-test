@@ -19,5 +19,10 @@
 },
 "files.associations": {
     "*.json": "jsonc"
+},
+"[html][typescript]": {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
 }

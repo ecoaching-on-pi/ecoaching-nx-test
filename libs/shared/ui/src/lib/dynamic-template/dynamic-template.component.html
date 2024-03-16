@@ -1,0 +1,7 @@
+<h1 class="text-2xl">Dynamic Template</h1>
+<ng-container *ngFor="let itemArray of dataList">
+  <div *ngFor="let item of itemArray">
+  <strong class="text-xl">{{ item.key | firstLetterUpperCase }}</strong>
+  <p class="text-lg">{{ item.value }}</p>
+  </div>
+</ng-container>

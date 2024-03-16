@@ -8,6 +8,7 @@ import { SharedServiceModule } from '@ecoaching-on-pi/shared/service';
 import { BaseComponent } from './base/base.component';
 import { DynamicTableComponent } from './dynamic-table/dynamic-table.component';
 import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
+import { DynamicTemplateComponent } from './dynamic-template/dynamic-template.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
     SidenavComponent,
     BaseComponent,
     DynamicTableComponent,
-  ],
-  exports: [HeaderComponent, SidenavComponent, DynamicTableComponent],
+    DynamicTemplateComponent,
+  DynamicTemplateComponent,],
+  exports: [HeaderComponent, SidenavComponent, DynamicTableComponent, DynamicTemplateComponent],
 })
 export class SharedUiModule {}

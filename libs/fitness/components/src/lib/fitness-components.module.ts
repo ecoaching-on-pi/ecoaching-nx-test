@@ -15,7 +15,7 @@ import { StopTrainingComponent } from './training/current-training/stop-training
 import { FitnessDataModule } from '@ecoaching-on-pi/fitness/data';
 import { SharedUiModule } from '@ecoaching-on-pi/shared/ui';
 import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   imports: [

@@ -9,6 +9,7 @@ import { BaseComponent } from './base/base.component';
 import { DynamicTableComponent } from './dynamic-table/dynamic-table.component';
 import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
 import { DynamicTemplateComponent } from './dynamic-template/dynamic-template.component';
+import { DynamicReactiveFormComponent } from './dynamic-reactive-form/dynamic-reactive-form.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { DynamicTemplateComponent } from './dynamic-template/dynamic-template.co
     BaseComponent,
     DynamicTableComponent,
     DynamicTemplateComponent,
-  DynamicTemplateComponent,],
-  exports: [HeaderComponent, SidenavComponent, DynamicTableComponent, DynamicTemplateComponent],
+  DynamicTemplateComponent,DynamicReactiveFormComponent,],
+  exports: [HeaderComponent, SidenavComponent, DynamicTableComponent, DynamicTemplateComponent, DynamicReactiveFormComponent],
 })
 export class SharedUiModule {}

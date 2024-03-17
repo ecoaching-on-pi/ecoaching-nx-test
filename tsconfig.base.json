@@ -35,6 +35,9 @@
       "@ecoaching-on-pi/fitness/data": [
         "libs/fitness/data/src/index.ts"
       ],
+      "@ecoaching-on-pi/shared/data": [
+        "libs/shared/data/src/index.ts"
+      ],
       "@ecoaching-on-pi/shared/service": [
         "libs/shared/service/src/index.ts"
       ],

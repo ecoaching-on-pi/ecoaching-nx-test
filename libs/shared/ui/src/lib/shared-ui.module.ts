@@ -10,6 +10,7 @@ import { DynamicTableComponent } from './dynamic-table/dynamic-table.component';
 import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
 import { DynamicTemplateComponent } from './dynamic-template/dynamic-template.component';
 import { DynamicReactiveFormComponent } from './dynamic-reactive-form/dynamic-reactive-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { DynamicReactiveFormComponent } from './dynamic-reactive-form/dynamic-re
     UiMaterialModule,
     SharedServiceModule,
     SharedUtilityModule,
+    ReactiveFormsModule
   ],
   declarations: [
     HeaderComponent,

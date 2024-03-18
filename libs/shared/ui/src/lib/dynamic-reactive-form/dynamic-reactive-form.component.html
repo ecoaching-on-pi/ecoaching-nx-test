@@ -1,13 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
 <h1 class="text-2xl">Dynamic Reactive Form</h1>
 <div *ngFor="let item of formData">
   <ng-container [ngSwitch]="item.controlType">
   <mat-form-field *ngSwitchCase="'input'">
   <mat-label>{{item.key | firstLetterUpperCase }}</mat-label>
-  <input matInput placeholder="'{{item.key}}'" [value]="item.value">
+  <input matInput placeholder="'{{item.key}}'" formControlName="{{item.key}}">
   </mat-form-field>
   <mat-slider *ngSwitchCase="'slider'" min="{{item.options?.min}}" max="{{item.options?.max}}" step="{{item.options?.step}}" showTickMarks >
-    <input  value="{{item.value}}" matSliderThumb>
+    <input  formControlName="{{item.key}}" matSliderThumb>
   </mat-slider>
   <!-- Add other Angular Material form controls as needed -->
   </ng-container>
+
   </div>
+  <button mat-button type="submit">Submit</button>
+</form>

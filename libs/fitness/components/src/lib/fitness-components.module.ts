@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { StopTrainingComponent } from './training/current-training/stop-training.component';
 import { FitnessDataModule } from '@ecoaching-on-pi/fitness/data';
-import { SharedUiModule } from '@ecoaching-on-pi/shared/ui';
+import { DynamicSliderComponent, SharedUiModule } from '@ecoaching-on-pi/shared/ui';
 import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
 
 
@@ -27,6 +27,7 @@ import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
     FitnessComponentsRoutingModule,
     FitnessMaterialModule,
     FitnessDataModule,
+    DynamicSliderComponent
   ],
   declarations: [
     ProductsComponent,

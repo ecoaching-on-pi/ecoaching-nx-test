@@ -11,6 +11,7 @@ import { SharedUtilityModule } from '@ecoaching-on-pi/shared/utility';
 import { DynamicTemplateComponent } from './dynamic-template/dynamic-template.component';
 import { DynamicReactiveFormComponent } from './dynamic-reactive-form/dynamic-reactive-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DynamicSliderComponent } from './dynamic-slider/dynamic-slider.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     UiMaterialModule,
     SharedServiceModule,
     SharedUtilityModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DynamicSliderComponent,
   ],
   declarations: [
     HeaderComponent,
@@ -27,7 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BaseComponent,
     DynamicTableComponent,
     DynamicTemplateComponent,
-  DynamicTemplateComponent,DynamicReactiveFormComponent,],
+    DynamicTemplateComponent,
+    DynamicReactiveFormComponent,],
   exports: [HeaderComponent, SidenavComponent, DynamicTableComponent, DynamicTemplateComponent, DynamicReactiveFormComponent],
 })
 export class SharedUiModule {}

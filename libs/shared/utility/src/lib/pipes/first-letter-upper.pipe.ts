@@ -1,9 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'firstLetterUpperCase',
+  name: 'firstLetterUpper',
+  standalone: true
 })
-export class FirstLetterUpperCasePipe implements PipeTransform {
+export class FirstLetterUpperPipe implements PipeTransform {
 
   transform(value: string): string {
     if (!value) return value;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ControlType} from '@ecoaching-on-pi/shared/data';
 import { FormField } from '@ecoaching-on-pi/shared/data';
@@ -12,7 +12,7 @@ import { FormField } from '@ecoaching-on-pi/shared/data';
 export class DynamicReactiveFormComponent implements OnInit{
   form!: FormGroup;
   // Example data array
-formData: FormField[] = [ { key: 'name', value: 'John Doe', controlType: ControlType.Input }, { key: 'age', value: 5, controlType: ControlType.Slider, options: {min: 1, max: 9, step: 1}}];
+@Input() formData: FormField[] = [ { key: 'name', value: 'John Doe', controlType: ControlType.Input }, { key: 'age', value: 5, controlType: ControlType.Slider, options: {min: 1, max: 9, step: 1}}];
 constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {

@@ -3,15 +3,18 @@
 <div *ngFor="let item of formData">
   <ng-container [ngSwitch]="item.controlType">
   <mat-form-field *ngSwitchCase="'input'">
-  <mat-label>{{item.key | firstLetterUpperCase }}</mat-label>
-  <input matInput placeholder="'{{item.key}}'" formControlName="{{item.key}}">
+   <mat-label>{{item.key | firstLetterUpperCase }}</mat-label>
+   <input matInput placeholder="'{{item.key}}'" formControlName="{{item.key}}">
   </mat-form-field>
-  <mat-slider *ngSwitchCase="'slider'" min="{{item.options?.min}}" max="{{item.options?.max}}" step="{{item.options?.step}}" showTickMarks >
+  <div *ngSwitchCase="'slider'">
+   <mat-label>{{item.key | firstLetterUpperCase }}</mat-label>
+   <mat-slider  min="{{item.options?.min}}" max="{{item.options?.max}}" step="{{item.options?.step}}" showTickMarks discrete>
     <input  formControlName="{{item.key}}" matSliderThumb>
-  </mat-slider>
+   </mat-slider>
+  </div>
   <!-- Add other Angular Material form controls as needed -->
   </ng-container>
 
   </div>
-  <button mat-button type="submit">Submit</button>
+  <button mat-raised-button color="primary" type="submit">Submit</button>
 </form>
